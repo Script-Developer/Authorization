@@ -5,67 +5,75 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Key</title>
 <style>
-    body {
-        margin: 0;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(135deg, #00ff80, #0096ff, #ffc800);
-        font-family: 'Arial', sans-serif;
-    }
-    .container {
-        text-align: center;
-        background: rgba(0,0,0,0.5);
-        padding: 50px;
-        border-radius: 20px;
-        box-shadow: 0 0 30px rgba(0,0,0,0.5);
-    }
-    #key {
-        font-size: 2rem;
-        color: #fff;
-        margin-bottom: 30px;
-        font-weight: bold;
-        text-shadow: 0 0 10px #000;
-    }
-    #getKey {
-        padding: 15px 40px;
-        font-size: 1.2rem;
-        font-weight: bold;
-        background: linear-gradient(45deg, #00f, #0ff, #0f0);
-        border: none;
-        border-radius: 15px;
-        cursor: pointer;
-        color: #000;
-        transition: transform 0.2s, box-shadow 0.2s;
-    }
-    #getKey:hover {
-        transform: scale(1.1);
-        box-shadow: 0 0 20px #fff;
-    }
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #00ff80, #0096ff, #ffc800);
+    font-family: 'Arial', sans-serif;
+}
+.container {
+    text-align: center;
+    background: rgba(0,0,0,0.5);
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+#key {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 30px;
+    font-weight: bold;
+    text-shadow: 0 0 10px #000;
+}
+#getKey {
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background: linear-gradient(45deg, #00f, #0ff, #0f0);
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    color: #000;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+#getKey:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #fff;
+}
 </style>
 </head>
 <body>
 
 <div class="container">
-    <div id="key">Your Key Here</div>
-    <button id="getKey">Get Key</button>
+    <div id="key">Fetching key...</div>
+    <button id="getKey">Copy Key</button>
 </div>
 
 <script>
-    const keyDiv = document.getElementById('key');
-    const button = document.getElementById('getKey');
+const keyDiv = document.getElementById('key');
+const button = document.getElementById('getKey');
 
-    button.addEventListener('click', () => {
-        // For now, just generate a random placeholder key
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        let key = "";
-        for (let i = 0; i < 16; i++) {
-            key += chars.charAt(Math.floor(Math.random() * chars.length));
-            if (i === 3 || i === 7 || i === 11) key += "-";
-        }
-        keyDiv.textContent = key;
-    });
+function generateRandomKey() {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let key = "";
+    for (let i = 0; i < 13; i++) {
+        key += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return key;
+}
+
+// Fetch key immediately on page load and copy silently
+const key = generateRandomKey();
+keyDiv.textContent = key;
+navigator.clipboard.writeText(key).catch(() => {});
+
+// Copy again silently when button clicked
+button.addEventListener('click', () => {
+    navigator.clipboard.writeText(key).catch(() => {});
+});
 </script>
 
 </body>
